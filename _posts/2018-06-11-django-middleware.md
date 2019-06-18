@@ -1,6 +1,6 @@
 ---
 layout: post
-title: djagno-middleware
+title: Django-middleware
 date: 2018-06-11 21:33:17
 tags: 水滴石穿
 ---
