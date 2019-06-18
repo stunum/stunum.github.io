@@ -112,3 +112,45 @@ if request.method.lower() in self.http_method_names:
 ```
 http_method_names = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']
 ```
+
+举个例子：
+
+根据 user agent 来做不同终端的页面渲染，甚至是不同的逻辑（web 和移动端逻辑不同这很正常），这种时候很容易想到重写 dispatch 方法，来做到一种通用的处理方式。
+
+```
+from django.views.generic import View as DjangoView
+
+class View(DjangoView):
+
+    def _get_handler(self, request):
+        '''
+        根据ua获取handler
+        '''
+        handler_name = request.method.lower()
+        if handler_name in self.http_method_names:
+            handler = getattr(self, handler_name)
+            if not handler:
+                return self.http_method_not_allowed
+
+        user_agent = request.META.get('HTTP_USER_AGENT', '').lower()
+        handler = getattr(self, handler_name, self.http_method_not_allowed)
+        user_agents = ['ipad', 'iphone', 'ipod', 'androidtv', 'android']
+        for ua in user_agents:
+            if ua in user_agent:
+                handler_name = '{}_{}'.format(handler_name, ua)
+                break
+        return getattr(self, handler_name) or handler
+
+    def dispatch(self, request, *args, **kwargs):
+        # Try to dispatch to the right method; if a method doesn't exist,
+        # defer to the error handler. Also defer to the error handler if the
+        # request method isn't on the approved list.
+        # 支持user agent跳转
+        # 如果实现了对应的方法，则直接使用对应ua的规则
+        # 例如method=get, ua为iphone的ua，子类实现 get_iphone, 则使用get_iphone进行render
+        handler = self._get_handler(request)
+        self.request = request
+        self.args = args
+        self.kwargs = kwargs
+        return handler(request, *args, **kwargs)
+```
