@@ -23,7 +23,7 @@ nav:
   - {
       title: 简历,
       description: 我的简历,
-      url: "https://media.stunum.com/python%E5%BC%80%E5%8F%91_%E7%8E%8B%E9%91%AB_15669313370.pdf",
+      url: "https://media.stunum.com/python%E5%BC%80%E5%8F%91-%E7%8E%8B%E9%91%AB-15669313370.pdf",
     }
   - { title: 愿望清单, description: 我愿望清单, url: "/wishlist" }
   - { title: 工具, description: 我所使用的开发工具, url: "/apps" }
