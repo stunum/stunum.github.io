@@ -31,6 +31,14 @@ for  item in files_name_deque:
 #### 效果展示
 ![禁用迅雷的多余功能](https://media.stunum.com/xunl.png)
 
-如果想要更改回去的话，只要把` os.system(f'chmod a-x /Applications/Thunder.app/Contents/PlugIns/{item}')`改为` os.system(f'chmod a+x /Applications/Thunder.app/Contents/PlugIns/{item}')`之后在执行一边就可以了。
+如果想要更改回去的话，只要把
+```
+os.system(f'chmod a-x /Applications/Thunder.app/Contents/PlugIns/{item}')
+```
+改为
+```
+os.system(f'chmod a+x /Applications/Thunder.app/Contents/PlugIns/{item}')
+```
+之后在执行一边就可以了。
 ###### 禁用迅雷的多余功能，专心下载就好~
 
