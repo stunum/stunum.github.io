@@ -15,10 +15,9 @@ tags:  水滴石穿
 ```
 class Singleton(object):
 
-    def __new__(cls, *args, **kw):
+    def __new__(cls, *args, **kwargs):
         if not hasattr(cls, '_instance'):
-            org = super(Singleton, cls)
-            cls._instance = org.__new__(cls, *args, **kw)
+            cls._instance = super().__new__(cls, *args, **kwargs)
         return cls._instance
 ```
 复写内部方法__new__()

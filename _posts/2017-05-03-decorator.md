@@ -16,33 +16,52 @@ tags:  水滴石穿
 
 ##### 举例：
 ```
-class Test(object):
-    def add(self):
-        print("添加数据")
+#函数装饰器
+from functools import wraps
+import time
 
-    def remove(self):
-        print("删除数据")
+def runtime(func):
+    @wraps(func)
+    def inner(*args, **kwargs):
+        start_time = time.time()
+        func(*args, **kwargs)
+        end_time = time.time()
+        print(end_time - start_time)
+    return inner
 
-class Decorator(object):
-    def __init__(self, name):
-        self._run = name
-
-    def save(self):
-        print("保存数据")
-
-    def __getattr__(self, name):
-        return getattr(self._run, name)
-
-if __name__=='__main__':
-    testA=Test()
-    testB=Decorator(testA)
-    testB.remove()
-    testB.add()
-    testB.save()
+@runtime
+def fun():
+    time.sleep(2)
+    print('ok')
 ```
-输出结果：
+
 ```
-删除数据
-添加数据
-保存数据
+#类装饰器
+class RunTime(object):
+    def __init__(self, func):
+        self._func = func
+
+    def __call__(self, *args, **kwargs):
+        start_time = time.time()
+        self._func(*args, **kwargs)
+        end_time = time.time()
+        print(end_time - start_time)
+
+
+@RunTime
+def fun1(num):
+    print(f'args={num}')
+    time.sleep(2)
+    print('ok')
 ```
+ps：如果一个函数被多个装饰器装饰的话，装饰器的执行顺序是从内到外的。
+举例：
+```
+@ClearFunc
+@RunTime
+def fun1(num):
+    print(f'args={num}')
+    time.sleep(2)
+    print('ok')
+```
+上面这个函数被两个装饰器装饰了，运行的时候执行顺序是原函数先被 `RunTime` 装饰器装饰，之后装饰完的函数再被 `ClearFunc` 装饰。
