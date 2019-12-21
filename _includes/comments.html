@@ -1,3 +1,4 @@
+{% if page.url != '/wishlist/' and page.url != '/apps/' %}
 <section class="post-comments">
   {% if site.comment.disqus %}
     <div id="disqus_thread"></div>
@@ -32,7 +33,5 @@
         })();
     </script>
   {% endif %}
-  
-  
-  
 </section>
+{% endif %}

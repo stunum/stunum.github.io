@@ -1,3 +1,4 @@
+{% if page.url != '/wishlist/' and page.url != '/apps/' %}
 <section class="read-more">
    {% if page.next %}
    {% assign current = page.next %}
@@ -19,3 +20,4 @@
    </div>
    {% endif %}
 </section>
+{% endif %}
